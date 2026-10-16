@@ -366,13 +366,34 @@ SELECT sum(unit_price*quantity) from order_items
 WHERE order_id = 105;
 
 -- Find customers who ordered 'Books' and paid with a'Credit Card'.
+SELECT o.*,oi.category from orders as o
+INNER JOIN order_items as oi
+ON oi.order_id  = o.order_id
+WHERE oi.category = 'Books' AND o.payment_method = 'Credit Card';
+
+
+-- Show the payment methods used for buying 'Luxury' category items.
+SELECT o.payment_method from order_items as oi
+INNER JOIN orders as o 
+ON oi.order_id  = o.order_id
+where category ='Luxury';
+
+-- Get order IDs and shipping countries for 'Bronze' tier customers.
+SELECT c.* from customers as c
+INNER JOIN orders as o
+ON c.customer_id = o.customer_id
+WHERE c.customer_tier = 'Bronze';
+
+-- List the names of customers whose orders had less than 5 tax.
 SELECT * from customers;
 SELECT * from orders;
 SELECT * from order_items;
 
--- Show the payment methods used for buying 'Luxury' category items.
--- Get order IDs and shipping countries for 'Bronze' tier customers.
--- List the names of customers whose orders had zero tax.
+SELECT c.first_name from orders as o
+INNER JOIN customers as c
+ON c.customer_id = o.customer_id
+where tax_amount < 5;
+
 -- Find the total lifetime spend of customers who bought a 'Monitor'.
 -- Retrieve product names for orders shipped to 'USA'.
 -- Show customer emails for orders placed exactly on '2023-06-15'.
